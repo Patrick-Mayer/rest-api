@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
+
+// Use the cors middleware
 app.use(cors());
 
 const db = mysql.createConnection({
@@ -23,7 +25,47 @@ db.connect(err => {
   console.log('Connected to MySQL');
 });
 
-// Update user's email by ID
+// Existing endpoint to get all users
+app.get('/api/users', (req, res) => {
+  db.query('SELECT * FROM users', (err, results) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Existing endpoint to add a new user
+app.post('/api/users', (req, res) => {
+  const { name, email } = req.body;
+  db.query('INSERT INTO users (Username, email) VALUES (?, ?)', [name, email], (err, result) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({ id: result.insertId, name, email });
+  });
+});
+
+// Existing endpoint to get a single user by ID
+app.get('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+
+  db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+
+// New PUT endpoint to update user's email by ID
 app.put('/api/users/:id', (req, res) => {
   const userId = req.params.id;
   const { email } = req.body;
@@ -35,7 +77,6 @@ app.put('/api/users/:id', (req, res) => {
 
   db.query('UPDATE users SET email = ? WHERE id = ?', [email, userId], (err, result) => {
     if (err) {
-      console.error('Error updating user email:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -49,7 +90,18 @@ app.put('/api/users/:id', (req, res) => {
   });
 });
 
-// Check user existence and create if not found
+// Existing DELETE endpoint to delete all users
+app.delete('/api/users', (req, res) => {
+  db.query('DELETE FROM users', (err, result) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.status(200).json({ message: 'All users deleted successfully', affectedRows: result.affectedRows });
+  });
+});
+
+// New PUT endpoint to check user existence and create if not found
 app.put('/api/users', (req, res) => {
   const { email } = req.body;
 
@@ -60,7 +112,6 @@ app.put('/api/users', (req, res) => {
 
   db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
     if (err) {
-      console.error('Error checking user existence:', err.message);
       res.status(500).json({ error: err.message });
       return;
     }
@@ -70,7 +121,6 @@ app.put('/api/users', (req, res) => {
     } else {
       db.query('INSERT INTO users (email) VALUES (?)', [email], (err, result) => {
         if (err) {
-          console.error('Error creating new user:', err.message);
           res.status(500).json({ error: err.message });
           return;
         }
