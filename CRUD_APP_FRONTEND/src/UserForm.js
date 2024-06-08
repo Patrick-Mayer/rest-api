@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
 const UserForm = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
+    const {fetchUsers} = useContext(UserContext);
+    
+    let [username, setUsername] = useState('');
+    let [email, setEmail] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -14,9 +17,14 @@ const UserForm = () => {
                 email: email,
             });
             console.log('User added:', response.data);
+            fetchUsers();
         } catch (error) {
             console.error('Error adding user:', error);
         }
+        
+        setUsername('');
+        setEmail('');
+        
     };
 
     return (

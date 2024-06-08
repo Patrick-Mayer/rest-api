@@ -1,28 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
-const DeleteByID = () => {
-  const [userId, setUserId] = useState('');
+
+
+const DeleteByID = ({userId}) => {
   const [message, setMessage] = useState('');
+  const {fetchUsers} = useContext(UserContext);
 
   const handleDelete = async () => {
     try {
       const response = await axios.delete(`http://localhost:5000/api/users/${userId}`);
-      setMessage(response.data.message);
+      alert(response.data.message);
+      fetchUsers();
+      
     } catch (error) {
-      setMessage(error.response ? error.response.data.error : 'Error deleting user');
+      alert(error.response ? error.response.data.error : 'Error deleting user');
     }
   };
 
   return (
     <div>
-      <h2>Delete User</h2>
-      <input
-        type="text"
-        placeholder="User ID"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
-      />
       <button onClick={handleDelete}>Delete User</button>
       {message && <p>{message}</p>}
     </div>

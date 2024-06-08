@@ -7,7 +7,6 @@ import UserList from '../UserList';
 import UserSelector from '../UserSelector';
 import DeleteUsers from '../DeleteUsers';
 import UpdateUserEmail from '../UpdateUserEmail';
-import DeleteByID from '../DeleteByID';
 import Modal from '../Modal';
 
 
@@ -58,7 +57,6 @@ function Home(){
                 </div>
                 
                 <UpdateUserEmail></UpdateUserEmail>
-                <DeleteByID></DeleteByID>
                 <UserForm></UserForm>
                 <UserList></UserList>
                 <DeleteUsers></DeleteUsers>

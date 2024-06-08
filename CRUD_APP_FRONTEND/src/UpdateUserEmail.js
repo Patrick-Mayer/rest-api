@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
 const UpdateUserEmail = () => {
+  const {fetchUsers} = useContext(UserContext);
+  
   const [userId, setUserId] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -10,6 +13,7 @@ const UpdateUserEmail = () => {
     try {
       const response = await axios.put(`http://localhost:5000/api/users/${userId}`, { email });
       setMessage(response.data.message);
+      fetchUsers();
     } catch (error) {
       setMessage(error.response ? error.response.data.error : 'Error updating user email');
     }

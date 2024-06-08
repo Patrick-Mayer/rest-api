@@ -11,6 +11,7 @@ const GetUserByID = ({ id }) => {
         try {
           const response = await axios.get(`http://localhost:5000/api/users/${id}`);
           setUser(response.data);
+
           setError(null);
         } catch (err) {
           setError(err.response ? err.response.data.message : err.message);
