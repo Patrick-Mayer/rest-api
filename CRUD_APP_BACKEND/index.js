@@ -101,6 +101,26 @@ app.delete('/api/users', (req, res) => {
   });
 });
 
+//deletes by ID
+app.delete('/api/users/:id', (req, res) => {
+  const userId = req.params.id;
+
+  db.query('DELETE FROM users WHERE id = ?', [userId], (err, result) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    if (result.affectedRows === 0) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({ message: 'User deleted successfully' });
+  });
+});
+
+
 // New PUT endpoint to check user existence and create if not found
 app.put('/api/users', (req, res) => {
   const { email } = req.body;
