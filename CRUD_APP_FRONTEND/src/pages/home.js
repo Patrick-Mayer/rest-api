@@ -23,7 +23,7 @@ function Home(){
 
     const handleSubmit = async (friendEmail) => {
         try {
-        await axios.put('http://localhost:5000/api/users', { email: friendEmail });
+        await axios.put('http://142.93.243.224:5000/api/users', { email: friendEmail });
         console.log(`Friend's email submitted: ${friendEmail}`);
         
         } catch (error) {

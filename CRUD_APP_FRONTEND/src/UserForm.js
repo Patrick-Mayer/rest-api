@@ -12,7 +12,7 @@ const UserForm = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/api/users', {
+            const response = await axios.post('http://142.93.243.224:5000/api/users', {
                 name: username,
                 email: email,
             });
