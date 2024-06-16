@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.put('http://localhost:5000/api/users', { email });
+      const response = await axios.put('http://142.93.243.224:5000/api/users', { email });
       setMessage(response.data.message);
       
       // Redirect to home page if user is created or exists

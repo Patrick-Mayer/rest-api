@@ -7,7 +7,7 @@ const DeleteUsers = () => {
   
   const handleDelete = async () => {
     try {
-      const response = await axios.delete('http://localhost:5000/api/users');
+      const response = await axios.delete('http://142.93.243.224:5000/api/users');
       alert(response.data.message);
       fetchUsers();
     } catch (error) {

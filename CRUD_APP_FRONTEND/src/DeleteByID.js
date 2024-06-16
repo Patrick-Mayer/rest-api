@@ -10,7 +10,7 @@ const DeleteByID = ({userId}) => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/users/${userId}`);
+      const response = await axios.delete(`http://142.93.243.224:5000/api/users/${userId}`);
       alert(response.data.message);
       fetchUsers();
       
