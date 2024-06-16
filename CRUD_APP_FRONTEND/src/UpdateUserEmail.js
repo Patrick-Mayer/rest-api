@@ -11,7 +11,7 @@ const UpdateUserEmail = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/users/${userId}`, { email });
+      const response = await axios.put(`http://142.93.243.224:5000/api/users/${userId}`, { email });
       setMessage(response.data.message);
       fetchUsers();
     } catch (error) {

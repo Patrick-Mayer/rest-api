@@ -9,7 +9,7 @@ const GetUserByID = ({ id }) => {
     if (id !== null) {
       const fetchUser = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/api/users/${id}`);
+          const response = await axios.get(`http://142.93.243.224:5000/api/users/${id}`);
           setUser(response.data);
 
           setError(null);

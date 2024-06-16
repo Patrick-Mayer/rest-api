@@ -11,7 +11,7 @@ const SendToDB = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:5000/api/login', {
+            const response = await axios.post('http://142.93.243.224:5000/api/login', {
                 name,
                 email,
             });
